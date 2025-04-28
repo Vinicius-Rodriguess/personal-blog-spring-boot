@@ -28,4 +28,10 @@ public class ThemeController {
                 .map(response -> ResponseEntity.ok(response))
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
+
+    @GetMapping("/description/{description}")
+    public ResponseEntity<List<Theme>> getByDescription(@PathVariable String description){
+        return ResponseEntity.ok(themeRepository
+                .findAllByDescriptionContainingIgnoreCase(description));
+    }
 }
