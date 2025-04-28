@@ -30,4 +30,9 @@ public class PostController {
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
+    @GetMapping("/title/{title}")
+    public ResponseEntity<List<Post>> getByTitle(@PathVariable String title) {
+        return ResponseEntity.ok(postRepository.findAllByTitleContainingIgnoreCase(title));
+    }
+
 }
