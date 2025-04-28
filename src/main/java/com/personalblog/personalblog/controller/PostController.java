@@ -42,4 +42,12 @@ public class PostController {
                 .body(postRepository.save(post));
     }
 
+    @PutMapping()
+    public ResponseEntity<Post> updatePost (@Valid @RequestBody Post post) {
+        return postRepository.findById(post.getId())
+                .map(response -> ResponseEntity.status(HttpStatus.OK)
+                        .body(postRepository.save(post)))
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
+
 }
