@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/theme")
@@ -50,5 +52,14 @@ public class ThemeController {
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/{id}")
+    public void deleteTheme(@PathVariable Long id) {
+        Optional<Theme> theme = themeRepository.findById(id);
 
+        if(theme.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+
+        themeRepository.deleteById(id);
+    }
 }
