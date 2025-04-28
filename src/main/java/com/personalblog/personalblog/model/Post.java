@@ -1,5 +1,6 @@
 package com.personalblog.personalblog.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -26,13 +27,9 @@ public class Post {
     @UpdateTimestamp
     private LocalDateTime date;
 
-    public LocalDateTime getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDateTime date) {
-        this.date = date;
-    }
+    @ManyToOne
+    @JsonIgnoreProperties("post")
+    private Theme theme;
 
     public long getId() {
         return id;
@@ -56,5 +53,21 @@ public class Post {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
+    }
+
+    public Theme getTheme() {
+        return theme;
+    }
+
+    public void setTheme(Theme theme) {
+        this.theme = theme;
     }
 }
