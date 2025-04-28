@@ -1,11 +1,11 @@
-package com.generation.blogpessoal.model;
+package com.personalblog.personalblog.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.personalblog.personalblog.model.Post;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+
+import java.util.List;
 
 @Entity
 @Table(name = "tb_theme")
@@ -19,6 +19,18 @@ public class Theme {
             "The Description Attribute is mandatory")
     private String description;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "theme", cascade = CascadeType.REMOVE)
+    @JsonIgnoreProperties("theme")
+    private List<Post> post;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -27,11 +39,11 @@ public class Theme {
         this.description = description;
     }
 
-    public Long getId() {
-        return id;
+    public List<Post> getPost() {
+        return post;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setPost(List<Post> post) {
+        this.post = post;
     }
 }
