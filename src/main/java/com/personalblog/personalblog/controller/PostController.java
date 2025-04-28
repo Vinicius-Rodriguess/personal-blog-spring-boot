@@ -2,6 +2,7 @@ package com.personalblog.personalblog.controller;
 
 import com.personalblog.personalblog.model.Post;
 import com.personalblog.personalblog.repository.PostRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +34,12 @@ public class PostController {
     @GetMapping("/title/{title}")
     public ResponseEntity<List<Post>> getByTitle(@PathVariable String title) {
         return ResponseEntity.ok(postRepository.findAllByTitleContainingIgnoreCase(title));
+    }
+
+    @PostMapping()
+    public ResponseEntity<Post> createPost (@Valid @RequestBody Post post) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(postRepository.save(post));
     }
 
 }
