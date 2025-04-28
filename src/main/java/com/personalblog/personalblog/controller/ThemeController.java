@@ -41,4 +41,14 @@ public class ThemeController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(themeRepository.save(theme));
     }
+
+    @PutMapping
+    public ResponseEntity<Theme> updateTheme(@Valid @RequestBody Theme theme){
+        return themeRepository.findById(theme.getId())
+                .map(response -> ResponseEntity.status(HttpStatus.CREATED)
+                        .body(themeRepository.save(theme)))
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
+
+
 }
