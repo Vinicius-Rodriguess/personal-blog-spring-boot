@@ -3,6 +3,8 @@ package com.personalblog.personalblog.controller;
 import java.util.List;
 import java.util.Optional;
 
+import com.personalblog.personalblog.dto.user.UserCreateDTO;
+import com.personalblog.personalblog.dto.user.UserUpdateDTO;
 import com.personalblog.personalblog.model.User;
 import com.personalblog.personalblog.model.UserLogin;
 import com.personalblog.personalblog.repository.UserRepository;
@@ -56,18 +58,18 @@ public class UserController {
 
 
     @PostMapping("/create")
-    public ResponseEntity<User> createUser(@RequestBody @Valid User user) {
+    public ResponseEntity<User> createUser(@RequestBody @Valid UserCreateDTO userCreateDTO) {
 
-        return userService.createUser(user)
+        return userService.createUser(userCreateDTO)
                 .map(response -> ResponseEntity.status(HttpStatus.CREATED).body(response))
                 .orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
 
     }
 
     @PutMapping("/update")
-    public ResponseEntity<User> updateUser(@Valid @RequestBody User user) {
+    public ResponseEntity<User> updateUser(@Valid @RequestBody UserUpdateDTO userUpdateDTO) {
 
-        return userService.updateUser(user)
+        return userService.updateUser(userUpdateDTO)
                 .map(response -> ResponseEntity.status(HttpStatus.OK).body(response))
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 

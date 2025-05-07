@@ -2,6 +2,9 @@ package com.personalblog.personalblog.service;
 
 import java.util.Optional;
 
+import com.personalblog.personalblog.dto.user.UserCreateDTO;
+import com.personalblog.personalblog.dto.user.UserUpdateDTO;
+import com.personalblog.personalblog.mapper.UserMapper;
 import com.personalblog.personalblog.model.User;
 import com.personalblog.personalblog.model.UserLogin;
 import com.personalblog.personalblog.repository.UserRepository;
@@ -27,25 +30,29 @@ public class UserService {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    public Optional<User> createUser(User user) {
+    public Optional<User> createUser(UserCreateDTO userCreateDTO) {
 
-        if (userRepository.findByEmail(user.getEmail()).isPresent())
+        if (userRepository.findByEmail(userCreateDTO.getEmail()).isPresent()) {
             return Optional.empty();
+        }
+
+        User user = UserMapper.toEntity(userCreateDTO);
 
         user.setPassword(encryptPassword(user.getPassword()));
 
         return Optional.of(userRepository.save(user));
-
     }
 
-    public Optional<User> updateUser(User user) {
+    public Optional<User> updateUser(UserUpdateDTO userUpdateDTO) {
 
-        if(userRepository.findById(user.getId()).isPresent()) {
+        if(userRepository.findById(userUpdateDTO.getId()).isPresent()) {
 
-            Optional<User> searchUser = userRepository.findByEmail(user.getEmail());
+            Optional<User> searchUser = userRepository.findByEmail(userUpdateDTO.getEmail());
 
-            if ( searchUser.isPresent() && !searchUser.get().getId().equals(user.getId()))
+            if ( searchUser.isPresent() && !searchUser.get().getId().equals(userUpdateDTO.getId()))
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User already exists!", null);
+
+            User user = UserMapper.toEntity(userUpdateDTO);
 
             user.setPassword(encryptPassword(user.getPassword()));
 
