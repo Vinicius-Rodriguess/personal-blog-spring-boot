@@ -26,19 +26,12 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "The Name attribute is required!")
     private String name;
 
-    @Schema(example = "email@email.com.br")
-    @NotNull(message = "The Email attribute is required!")
-    @Email(message = "The Email attribute must be a valid email address!")
     private String email;
 
-    @NotBlank(message = "The Password attribute is required!")
-    @Size(min = 8, message = "The Password must be at least 8 characters long")
     private String password;
 
-    @Size(max = 5000, message = "The photo link cannot exceed 5000 characters")
     private String photo;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.REMOVE)
